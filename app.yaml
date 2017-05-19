@@ -1,0 +1,42 @@
+application: profile-records
+version: 0-0-1
+runtime: python27
+api_version: 1
+threadsafe: yes
+
+builtins:
+- appstats: on
+- remote_api: on
+- deferred: on
+
+handlers:
+- url: /js
+  static_dir: templates/js
+
+- url: /
+  script: server_side.index.app
+
+- url: /tobloburl
+  script: server_side.analyseSms.application
+
+- url: /getbloburl
+  script: server_side.analyseSms.application
+
+- url: /SaveDataInBlob
+  script: server_side.analyseSms.application
+
+- url: /processfile
+  script: server_side.analyseSms.application
+
+- url: /tofrontend
+  script: server_side.analyseSms.application
+
+- url: /forCollapseData
+  script: server_side.analyseSms.application  
+
+libraries:
+- name: webapp2
+  version: latest
+
+- name: jinja2
+  version: latest

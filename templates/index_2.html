@@ -1,0 +1,105 @@
+{% block content %}
+<script type="text/javascript" src="js/jquery-1.8.3.min.js"></script>
+<div style="text-align: center; padding-left: 280px">
+	<table border="1px">
+		<thead>
+			<th>Si.No</th>
+			<th>Sender Number</th>
+			<th>Service Type</th>
+			<th>Total No. of SMS</th>
+			<th>No. of text SMS</th>
+			<th>No. of Promotional SMS</th>
+		</thead>
+		{% for key,values in data.items %}
+			<tbody>
+				<tr>
+					<td>{{forloop.counter}}</td>
+					<td><a href="#" id="show_1">{{key}}</td>
+					<td>{{key}}</a></td>
+					{% for v in values %}
+						<td>{{v}}</td>
+					{% endfor %}
+				</tr>
+				<tr>
+	                <thead id="extra_1" style="display: none;">
+	                	<tr>
+	                		<th id="collapseheader" colspan="6" style="text-align: center;"></th>
+	                	</tr>
+	                	<tr>
+		                	<th>Si.No</th>
+		                	<th style="width: 183px;">SMS</th>
+		                	<th>SMS Type</th>
+		                	<th style="width: 183px;">Date-Time</th>
+	                	</tr>
+	                </thead>
+	                <tbody id="and_1" style="display: none;">
+	                	<!-- <tr id="expandContent">
+	                		<td>fgsfg</td>
+	                	</tr> -->
+	                </tbody>
+			            <!-- </div> -->
+			        <!-- </td> -->
+				</tr>
+				<!-- <td>{{messages.li}}</td>
+				<td>{{messages.li}}</td>
+				<td>{{li.three}}</td> -->
+			</tbody>
+		{% endfor %}
+	</table>
+	<input type="text" id="jsonkey" style="display: none" value="{{jsonKey}}">
+</div>
+<script type="text/javascript">
+	function callAjax(e) {
+		console.log(e)
+	};
+	$("a[id^=show_]").click(function(event) {
+		testObj = {'test':[{'id':2,'type':'txt', 'text': 'dfadfadfsadf  dsfaf', 'date': 'fdafasdf'},{'id':1,'type':'txt', 'text': 'dfadfadfsadf  dsfaf', 'date': 'fdafasdf'}]}
+		console.log(testObj);
+		// for(var each in testObj){
+		// 	var conVar = '';
+		// 	for(var i=0;i<testObj[each].length;i++) {
+		// 		var k = i+1;
+		// 		console.log('round_'+i);
+		// 		conVar=conVar+"<tr><td>"+k+"</td><td>"+testObj[each][i]['text']+"</td><td>"+testObj[each][i]['type']+"</td><td>"+testObj[each][i]['date']+"</td></tr>"
+		// 		// $("#and_1").html("<tr><td>"+k+"</td><td>"+testObj[each][i]['text']+"</td><td>"+testObj[each][i]['type']+"</td><td>"+testObj[each][i]['date']+"</td></tr>");
+		// 	}
+		// 	$("#and_1").html(conVar);
+		// 	// console.log(testObj[each].length);
+		// }
+		console.log($("#jsonkey").val());
+		$.ajax({
+	        url: '/forCollapseData',
+	        type: 'POST',
+	        data: JSON.stringify({'jsonkeyid':$("#jsonkey").val(), 'sender':event.target.innerText}),
+	        cache: false,
+	        contentType: false,
+	        processData: false
+	      	}).done(function(data){
+	      		console.log(data);
+		    for(var each in data){
+		    	var conVar = '';
+		    	for(var i=0;i<data[each].length;i++) {
+		    		var k = i+1;
+		    		console.log('round_'+i);
+		    		conVar=conVar+"<tr><td>"+k+"</td><td>"+data[each][i]['text']+"</td><td>"+data[each][i]['type']+"</td><td>"+data[each][i]['datetime']+"</td></tr>"
+		    		// $("#and_1").html("<tr><td>"+k+"</td><td>"+testObj[each][i]['text']+"</td><td>"+testObj[each][i]['type']+"</td><td>"+testObj[each][i]['date']+"</td></tr>");
+		    	}
+		    	$("#and_1").html(conVar);
+		    	// console.log(testObj[each].length);
+		    }
+		});
+		// document.getElementById('expandContent').innerHtml = "<td>fgsfg</td>";
+		// $("#expandContent").html("<td>fgsfg</td>");
+	    $("#extra_" + $(this).attr('id').substr(5)).slideToggle("slow");
+	    $("#and_" + $(this).attr('id').substr(5)).slideToggle("slow");
+	    console.log(event);
+	    console.log(event.target.innerText);
+	    $("#collapseheader").html(event.target.innerText)
+	    // $("#collapseheader").val(event.target.innerText);
+	    event.preventDefault();
+});
+</script>
+<!-- {% for li in messages %}
+<div>{{li}}</div>
+{% endfor %} -->
+{% endblock %}

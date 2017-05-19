@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<style>
+.middle {
+    height: 200px;
+    width: 400px;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    margin-top: -100px;
+    margin-left: -200px;
+}
+</style>
+<script type="text/javascript" src="js/jquery-1.8.3.min.js"></script>
+<body class="middle">
+	<input type="file" name="InputJsFile" id="InputJsFile"></br></br>
+	<button id="submitButton" onclick="MakePath()">submit</button><br/></br>
+	<div id="LoadingMessage" style="color: red;font-size: 17px;display: none">*Processing..</div>
+	<div id="noFileMessage" style="color: red;font-size: 17px;display: none">*Choose file before submit.</div>
+
+</body>
+</html>
+<script type="text/javascript">
+	function MakePath() {
+		if (document.getElementById('InputJsFile').files.length !=0 ) {
+			$("#noFileMessage").hide();
+			$("#LoadingMessage").show();
+			var formData = new FormData();
+			console.log($('#InputJsFile')[0].files[0]);
+			formData.append( 'file', $('#InputJsFile')[0].files[0]);
+			$.ajax({
+		        url: '/tobloburl',
+		        dataType: "json",
+		        cache: false,
+		        async: true
+		      	}).done(function(data){
+			        var key;
+			        console.log(data);
+			        $.ajax({
+			          url: data['url'],
+			          type: 'POST',
+			          data: formData,
+			          cache: false,
+			          contentType: false,
+			          processData: false
+			        }).done(function(Data){
+			        	$.ajax({
+			        	  url: '/processfile',
+			        	  type: 'POST',
+			        	  data: JSON.stringify(Data),
+			        	  cache: false,
+			        	  contentType: false,
+			        	  processData: false
+			        	}).done(function(data) {
+			        		$("#LoadingMessage").hide();
+			        		console.log(data);
+			        		window.location = '/tofrontend';
+			        	});
+
+			        });
+			
+			});
+	    }
+	    else {
+	    	$("#LoadingMessage").hide();
+	    	$("#noFileMessage").show();
+	    }
+	}	
+
+</script>
