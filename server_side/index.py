@@ -8,7 +8,7 @@ from google.appengine.api import app_identity
 
 class MainPage(webapp2.RequestHandler):
     def get(self):
-        logging.info('hai')
+        # logging.info('hai')
         path = os.path.join(os.path.dirname(__file__), '../templates/index.html')
         self.response.out.write(template.render(path, {}))
 

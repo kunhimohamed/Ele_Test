@@ -34,16 +34,8 @@
 	                	</tr>
 	                </thead>
 	                <tbody id="and_1" style="display: none;">
-	                	<!-- <tr id="expandContent">
-	                		<td>fgsfg</td>
-	                	</tr> -->
 	                </tbody>
-			            <!-- </div> -->
-			        <!-- </td> -->
 				</tr>
-				<!-- <td>{{messages.li}}</td>
-				<td>{{messages.li}}</td>
-				<td>{{li.three}}</td> -->
 			</tbody>
 		{% endfor %}
 	</table>
@@ -52,6 +44,7 @@
 <script type="text/javascript">
 	$("a[id^=show_]").click(function(event) {
 		// console.log($("#jsonkey").val());
+		$("#and_1").html("<p id='and_1_sub' style='color:red;text-align:center;'>Processing. . .</p>");
 		$.ajax({
 	        url: '/forCollapseData',
 	        type: 'POST',
