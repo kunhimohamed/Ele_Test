@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+<title>elesmsanaly</title>
 <style>
 .middle {
     height: 200px;
@@ -26,7 +27,7 @@
 			$("#noFileMessage").hide();
 			$("#LoadingMessage").show();
 			var formData = new FormData();
-			console.log($('#InputJsFile')[0].files[0]);
+			// console.log($('#InputJsFile')[0].files[0]);
 			formData.append( 'file', $('#InputJsFile')[0].files[0]);
 			$.ajax({
 		        url: '/tobloburl',
@@ -35,7 +36,7 @@
 		        async: true
 		      	}).done(function(data){
 			        var key;
-			        console.log(data);
+			        // console.log(data);
 			        $.ajax({
 			          url: data['url'],
 			          type: 'POST',
@@ -53,7 +54,7 @@
 			        	  processData: false
 			        	}).done(function(data) {
 			        		$("#LoadingMessage").hide();
-			        		console.log(data);
+			        		// console.log(data);
 			        		window.location = '/tofrontend';
 			        	});
 

@@ -1,7 +1,8 @@
 {% block content %}
+<title>elesmsanaly</title>
 <script type="text/javascript" src="js/jquery-1.8.3.min.js"></script>
 <div style="text-align: center; padding-left: 280px">
-	<table border="1px">
+	<table border="1px" id="smsdetailtable">
 		<thead>
 			<th>Si.No</th>
 			<th>Sender Number</th>
@@ -49,24 +50,8 @@
 	<input type="text" id="jsonkey" style="display: none" value="{{jsonKey}}">
 </div>
 <script type="text/javascript">
-	function callAjax(e) {
-		console.log(e)
-	};
 	$("a[id^=show_]").click(function(event) {
-		testObj = {'test':[{'id':2,'type':'txt', 'text': 'dfadfadfsadf  dsfaf', 'date': 'fdafasdf'},{'id':1,'type':'txt', 'text': 'dfadfadfsadf  dsfaf', 'date': 'fdafasdf'}]}
-		console.log(testObj);
-		// for(var each in testObj){
-		// 	var conVar = '';
-		// 	for(var i=0;i<testObj[each].length;i++) {
-		// 		var k = i+1;
-		// 		console.log('round_'+i);
-		// 		conVar=conVar+"<tr><td>"+k+"</td><td>"+testObj[each][i]['text']+"</td><td>"+testObj[each][i]['type']+"</td><td>"+testObj[each][i]['date']+"</td></tr>"
-		// 		// $("#and_1").html("<tr><td>"+k+"</td><td>"+testObj[each][i]['text']+"</td><td>"+testObj[each][i]['type']+"</td><td>"+testObj[each][i]['date']+"</td></tr>");
-		// 	}
-		// 	$("#and_1").html(conVar);
-		// 	// console.log(testObj[each].length);
-		// }
-		console.log($("#jsonkey").val());
+		// console.log($("#jsonkey").val());
 		$.ajax({
 	        url: '/forCollapseData',
 	        type: 'POST',
@@ -75,28 +60,29 @@
 	        contentType: false,
 	        processData: false
 	      	}).done(function(data){
-	      		console.log(data);
+	      		// console.log(data);
+	     //  		document.cookie = "EleSmsAnaly="+JSON.stringify(data);
+	      		
 		    for(var each in data){
 		    	var conVar = '';
 		    	for(var i=0;i<data[each].length;i++) {
 		    		var k = i+1;
-		    		console.log('round_'+i);
 		    		conVar=conVar+"<tr><td>"+k+"</td><td>"+data[each][i]['text']+"</td><td>"+data[each][i]['type']+"</td><td>"+data[each][i]['datetime']+"</td></tr>"
 		    		// $("#and_1").html("<tr><td>"+k+"</td><td>"+testObj[each][i]['text']+"</td><td>"+testObj[each][i]['type']+"</td><td>"+testObj[each][i]['date']+"</td></tr>");
 		    	}
 		    	$("#and_1").html(conVar);
 		    	// console.log(testObj[each].length);
 		    }
+		    
 		});
-		// document.getElementById('expandContent').innerHtml = "<td>fgsfg</td>";
-		// $("#expandContent").html("<td>fgsfg</td>");
+
 	    $("#extra_" + $(this).attr('id').substr(5)).slideToggle("slow");
-	    $("#and_" + $(this).attr('id').substr(5)).slideToggle("slow");
-	    console.log(event);
-	    console.log(event.target.innerText);
-	    $("#collapseheader").html(event.target.innerText)
-	    // $("#collapseheader").val(event.target.innerText);
-	    event.preventDefault();
+		    $("#and_" + $(this).attr('id').substr(5)).slideToggle("slow");
+		    // console.log(event);
+		    // console.log(event.target.innerText);
+		    $("#collapseheader").html(event.target.innerText);
+		     event.preventDefault();  	
+
 });
 </script>
 <!-- {% for li in messages %}
