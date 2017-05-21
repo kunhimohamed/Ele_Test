@@ -1,7 +1,7 @@
 {% block content %}
 <title>elesmsanaly</title>
 <script type="text/javascript" src="js/jquery-1.8.3.min.js"></script>
-<div style="text-align: center; padding-left: 280px">
+<div style="text-align: center;">
 	<table border="1px" id="smsdetailtable">
 		<thead>
 			<th>Si.No</th>
@@ -28,9 +28,9 @@
 	                	</tr>
 	                	<tr>
 		                	<th>Si.No</th>
-		                	<th style="width: 183px;">SMS</th>
+		                	<th style="width: 183px;" colspan="2">SMS</th>
 		                	<th>SMS Type</th>
-		                	<th style="width: 183px;">Date-Time</th>
+		                	<th style="width: 183px;" colspan="2">Date-Time</th>
 	                	</tr>
 	                </thead>
 	                <tbody id="and_1" style="display: none;">
@@ -60,7 +60,7 @@
 		    	var conVar = '';
 		    	for(var i=0;i<data[each].length;i++) {
 		    		var k = i+1;
-		    		conVar=conVar+"<tr><td>"+k+"</td><td>"+data[each][i]['text']+"</td><td>"+data[each][i]['type']+"</td><td>"+data[each][i]['datetime']+"</td></tr>"
+		    		conVar=conVar+"<tr><td>"+k+"</td><td colspan='2'>"+data[each][i]['text']+"</td><td>"+data[each][i]['type']+"</td><td colspan='2'>"+data[each][i]['datetime']+"</td></tr>"
 		    		// $("#and_1").html("<tr><td>"+k+"</td><td>"+testObj[each][i]['text']+"</td><td>"+testObj[each][i]['type']+"</td><td>"+testObj[each][i]['date']+"</td></tr>");
 		    	}
 		    	$("#and_1").html(conVar);
