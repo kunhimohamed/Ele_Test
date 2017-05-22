@@ -55,7 +55,7 @@ class ProcessFileSaveIntoDb(webapp2.RequestHandler):
 			if (('+' in str(eachItem)[1:-1]) or (str(eachItem)[1:-1].isdigit())):
 				continue
 			elif ('-' in str(eachItem)[1:-1]):
-				if not (str(eachItem)[1:-1].split('-')[1].isdigit()):
+				if (str(eachItem)[1:-1].split('-')[1].isalnum()):
 					SenderNamesFinalDict[eachItem] = str(eachItem)[1:-1].split('-')[1]
 			else:
 				SenderNamesFinalDict[eachItem] = str(eachItem)[1:-1]
