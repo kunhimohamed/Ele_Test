@@ -52,12 +52,12 @@ class ProcessFileSaveIntoDb(webapp2.RequestHandler):
 		FrontEndDict = {}
 
 		for eachItem in SenderNames:
-			if (('+' in str(eachItem)[1:-1]) or (str(eachItem)[1:-1].isdigit())):
-				continue
-			elif ('-' in str(eachItem)[1:-1]):
-				if (str(eachItem)[1:-1].split('-')[1].isalnum()):
+			# if (('+' in str(eachItem)[1:-1]) or (str(eachItem)[1:-1].isdigit())):
+			# 	continue
+			if ('-' in str(eachItem)[1:-1]):
+				if (str(eachItem)[1:-1].split('-')[1].isalnum() and (len(str(eachItem)[1:-1].split('-')[1]) == 6)):
 					SenderNamesFinalDict[eachItem] = str(eachItem)[1:-1].split('-')[1]
-			else:
+			elif (len(str(eachItem)[1:-1]) == 6):
 				SenderNamesFinalDict[eachItem] = str(eachItem)[1:-1]
 
 		for each in SenderNamesFinalDict:
