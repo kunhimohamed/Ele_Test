@@ -59,28 +59,60 @@ class ProcessFileSaveIntoDb(webapp2.RequestHandler):
 					SenderNamesFinalDict[eachItem] = str(eachItem)[1:-1].split('-')[1]
 			elif (len(str(eachItem)[1:-1]) == 6):
 				SenderNamesFinalDict[eachItem] = str(eachItem)[1:-1]
-
+		cab = ['UBER', 'OLA', 'REDBUS']
+		bank = ['HDFC', 'ICIC', 'SBI', 'MOBIKW']
 		for each in SenderNamesFinalDict:
 			TotalSmsCount = 0
 			TotalTextmsgCount = 0
 			TotalPromoCount = 0
+			id_type = 'Unknown'
 			for eachOne in JsonDict['messages']:
 				SenderDict = {}
+				for eachData in cab:
+					if eachData in each:
+						id_type = 'Cab'
+				for eachData in bank:
+					if eachData in each:
+						id_type = 'Bank'
+				# if not id_type:
+				# 	id_type = 'telecommunication or social network'
 				if each in eachOne.values():
 					TotalSmsCount = TotalSmsCount + 1
 					if not str(each).strip().replace('+','')[1:-1].isdigit():
 						TotalPromoCount = TotalPromoCount + 1
 					else:
 						TotalTextmsgCount = TotalTextmsgCount + 1
-			FrontEndDict[SenderNamesFinalDict[each]] = [str(TotalSmsCount), str(TotalTextmsgCount), str(TotalPromoCount)]
+			FrontEndDict[SenderNamesFinalDict[each]] = [id_type, str(TotalSmsCount), str(TotalTextmsgCount), str(TotalPromoCount)]
 
 		wholeDict = {}
+		# cab = ['UBER', 'OLA', 'REDBUS']
+		# bank = ['HDFC', 'ICIC', 'SBI']
+		telecommunication = ['airtel' , 'Airtel']
+		transcationKeyWordList = ['Credit', 'Debit', 'Transaction']
+		# id_type = False
 		for each in SenderNamesFinalDict:
 			StoredList = []
+			transaction_msg_count = 0
 			for eachOne in JsonDict['messages']:
 				checkList = [eachData[1:-1] if (eachData.startswith('"') and eachData.endswith('"')) else eachData for eachData in eachOne.values()]
 				if str(each)[1:-1] in checkList:
+					logging.info(eachOne.keys())
+					for eachData in cab:
+						if eachData in each:
+							eachOne['type'] = 'Cab'
+					for eachData in bank:
+						if eachData in each:
+							eachOne['type'] = 'Bank'
+					if 'text' in eachOne.keys():
+						for eachInTelecommunication in telecommunication:
+							if eachInTelecommunication in eachOne['text']:
+								eachOne['type'] = 'Airtel'
+								FrontEndDict[SenderNamesFinalDict[each]][0] = 'Airtel'
+						for eachIntranscationKeyWordList in transcationKeyWordList:
+							if eachIntranscationKeyWordList in eachOne['text']:
+								transaction_msg_count = transaction_msg_count + 1
 					StoredList.append(eachOne)
+					FrontEndDict[SenderNamesFinalDict[each]][2] = transaction_msg_count
 			if ('-' in str(each)[1:-1]):
 				wholeDict[str(each)[1:-1].split('-')[1]] = StoredList
 			else:
